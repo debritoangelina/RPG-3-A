@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore uma coleção de itens mágicos para RPG criados pelo grupo Wasabi.">
+    <meta name="keywords" content="RPG, itens mágicos, fantasia, Wasabi">
+    <meta name="author" content="Grupo Wasabi">
+    <title>Itens Mágicos de RPG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=IM+Fell+English:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-start: #3c2f1b;
+            --bg-end: #1f140a;
+            --text-color: #f0e4c2;
+            --bronze: #b89a5f;
+            --gold: #f2c94c;
+            --wood: #5a4327;
+            --shadow: rgba(0, 0, 0, 0.6);
+            --parchment-light: #f7edd5;
+            --parchment-dark: #3c2f1b;
+            --glow: rgba(242, 201, 76, 0.3);
+        }
+        [data-theme="light"] {
+            --bg-start: #f7edd5;
+            --bg-end: #e2d4a8;
+            --text-color: #2b1e12;
+            --bronze: #9b7e46;
+            --gold: #d4a017;
+            --wood: #6b532f;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --glow: rgba(212, 160, 23, 0.3);
+        }
+        body {
+            font-family: 'IM Fell English', serif;
+            background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+            font-weight: 700; /* Bold serif for body text */
+        }
+        /* Fundo Animado */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJUlEQVQYV2N8+vTpfwYGBgYGBgYGphkYGBgYGBgYGBgYGBgYGAA8nAX/9W3bOAAAAAElFTkSuQmCC') repeat, radial-gradient(circle, var(--glow) 0%, transparent 70%) 50% 50% / 200% 200%;
+            opacity: 0.2;
+            z-index: -1;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { background-position: 50% 50%, 20% 20%; }
+            50% { background-position: 50% 50%, 80% 80%; }
+        }
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(135deg, var(--bronze), var(--gold));
+            width: 100%;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 5px solid var(--wood);
+        }
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            display: block;
+            height: 4px;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 4"%3E%3Cpath d="M0,2 h25 l5,2 l5,-2 h30 l5,2 l5,-2 h25" stroke="%23b89a5f" fill="none"/%3E%3C/svg%3E') repeat-x;
+            margin-top: 20px;
+        }
+        .header h1 {
+            color: #2b1e12;
+            font-family: 'Uncial Antiqua', serif;
+            font-weight: 400;
+            font-size: 4.5em;
+            margin: 0;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 4px;
+        }
+        .header p {
+            color: var(--wood);
+            font-family: 'IM Fell English', serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 15px 0 0;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        /* Botão de Tema */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold);
+            border: 3px solid var(--bronze);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .theme-toggle:hover {
+            background: var(--bronze);
+            transform: scale(1.15);
+            box-shadow: 0 0 10px var(--glow);
+        }
+        .theme-toggle i {
+            color: #2b1e12;
+            font-size: 1.4em;
+        }
+        /* Barra de Pesquisa */
+        .search-container {
+            text-align: center;
+            margin: 60px 0;
+            position: relative;
+            max-width: 700px;
+            width: 90%;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        .search-container input {
+            padding: 20px 20px 20px 65px;
+            width: 100%;
+            background-color: var(--wood);
+            border: 4px solid var(--bronze);
+            border-radius: 20px;
+            font-size: 1.5em;
+            color: var(--text-color);
+            font-family: 'IM Fell English', serif;
+            font-weight: 700;
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+            box-shadow: inset 0 3px 6px var(--shadow);
+        }
+        .search-container input::placeholder {
+            color: #c2a881;
+            font-style: italic;
+            font-weight: 400;
+        }
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 20px var(--glow);
+            background-color: #7a5c36;
+        }
+        .search-container::before {
+            content: '\f002';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--bronze);
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.6em;
+        }
+        /* Mensagem de Sem Resultados */
+        .no-results {
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--text-color);
+            font-family: 'IM Fell English', serif;
+            font-weight: 700;
+            font-style: italic;
+            margin: 30px 0;
+            display: none;
+            text-shadow: 1px 1px 3px var(--shadow);
+        }
+        /* Contêiner de Itens */
+        .item-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            width: 100%;
+            max-width: 1600px;
+            gap: 35px;
+            padding: 60px 30px;
+            box-sizing: border-box;
+        }
+        .item-box {
+            background: rgba(90, 67, 39, 0.95);
+            border: 4px solid var(--bronze);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 12px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
+        }
+        .item-box:hover {
+            transform: translateY(-15px) rotateY(8deg);
+            box-shadow: 0 20px 40px rgba(184, 154, 95, 0.8);
+        }
+        .item-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJUlEQVQYV2N8+vTpfwYGBgYGBgYGphkYGBgYGBgYGBgYGBgYGAA8nAX/9W3bOAAAAAElFTkSuQmCC') repeat;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        .item-box::after {
+            content: '\f6e8';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--bronze);
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.3em;
+            opacity: 0.5;
+        }
+        .item-box h2 {
+            color: var(--gold);
+            font-family: 'Uncial Antiqua', serif;
+            font-size: 2.9em;
+            margin: 0 0 30px;
+            padding-left: 50px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .item-box h2::before {
+            content: '\f0d7';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--bronze);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.9em;
+        }
+        .item-box p {
+            margin: 18px 0;
+            line-height: 2;
+            font-size: 1.5em;
+            color: var(--text-color);
+            font-weight: 700;
+            opacity: 0.95;
+        }
+        .item-box strong {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        /* Animação de Entrada */
+        .item-box {
+            opacity: 0;
+            transform: translateY(60px);
+            animation: fadeInUp 0.7s ease forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Rodapé */
+        footer {
+            background: linear-gradient(135deg, var(--bg-start), var(--wood));
+            color: var(--bronze);
+            width: 100%;
+            text-align: center;
+            padding: 35px 0;
+            margin-top: auto;
+            border-top: 4px solid var(--bronze);
+        }
+        footer p {
+            margin: 0;
+            font-size: 1.4em;
+            font-family: 'IM Fell English', serif;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px var(--shadow);
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .item-container {
+                grid-template-columns: 1fr;
+                padding: 40px 20px;
+            }
+            .header h1 {
+                font-size: 3.8em;
+            }
+            .header p {
+                font-size: 1.6em;
+            }
+            .item-box {
+                padding: 30px;
+            }
+            .item-box h2 {
+                font-size: 2.5em;
+                padding-left: 45px;
+            }
+            .search-container {
+                margin: 50px 20px;
+            }
+            .search-container input {
+                font-size: 1.4em;
+                padding: 18px 18px 18px 60px;
+            }
+            .theme-toggle {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 3em;
+            }
+            .header p {
+                font-size: 1.4em;
+            }
+            .item-box h2 {
+                font-size: 2.2em;
+            }
+            .item-box p {
+                font-size: 1.3em;
+            }
+            .search-container input {
+                font-size: 1.3em;
+            }
+            body::before {
+                background-size: 150% 150%;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Cabeçalho -->
+    <header>
+        <div class="header">
+            <h1>Itens Mágicos de RPG</h1>
+            <p>Criado pelo grupo Wasabi</p>
+            <button class="theme-toggle" title="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- Barra de Pesquisa -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Pesquisar itens por nome ou tipo..." oninput="filterItems()">
+    </div>
+
+
+    <!-- Contêiner de Itens -->
+    <main class="item-container" id="itemContainer">
+        <!-- Itens serão inseridos via JavaScript -->
+    </main>
+    <div class="no-results" id="noResults">Nenhum item encontrado...</div>
+
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2025 Grupo Wasabi. Todos os direitos reservados.</p>
+    </footer>
+
+
+    <script>
+        const items = [
+            {
+                name: "Lança de Ossium",
+                type: "Arma mágica – Lança",
+                damage: "7",
+                passive: "Causa +50% de dano contra oponentes.",
+                active: "Executa um golpe penetrante que atinge até dois inimigos alinhados, um atrás do outro. O segundo alvo sofre dano reduzido (5). (1x por combate)"
+            },
+            {
+                name: "Atirador de Éter Compactado",
+                type: "Arma mágica – Projétil",
+                damage: "8",
+                usage: "1 vez por combate",
+                effect: "Explode ao atingir o alvo e atinge no máximo 3 inimigos. Todos os alvos inimigos ficam Atordoados por 1 turno (não funciona com chefes)."
+            },
+            {
+                name: "Lâmina de Thanos",
+                type: "Arma mágica – Adaga",
+                damage: "4 físico + 4 psíquico",
+                effect: "Se causar o dano total, o inimigo sofre Desestabilização Mental, reduzindo em -2 o poder de ataque no próximo turno."
+            },
+            {
+                name: "Grevas do Caminho Resoluto",
+                type: "Equipamento – Botas",
+                passive: "Aumenta a mobilidade (permite atingir inimigos mais distantes com ataques corpo a corpo).",
+                secondary: "Se o usuário sofreu dano no último turno e atacar no turno atual, o inimigo é forçado a recuar no próximo turno, perdendo sua ação ofensiva."
+            },
+            {
+                name: "Ampulheta de Retorno Tático",
+                type: "Item mágico – Uso limitado (1x por combate)",
+                action: "Permite que um aliado refaça sua ação anterior (movimento, ataque ou habilidade), como se não tivesse acontecido.",
+                limit: "Não pode anular efeitos de morte ou ações de inimigos."
+            },
+            {
+                name: "Fragmento de Possibilidades",
+                type: "Item mágico – Uso único",
+                action: "Consumido no próprio turno. Role 1d4: Recupera 8 pontos de vida; Ganha +2 no próximo ataque e ação; Explode causando o dobro de dano de sua arma mais forte no usuário e em qualquer inimigo engajado com ele."
+            },
+            {
+                name: "Manto do Esquecido",
+                type: "Equipamento – Capa mágica",
+                passive: "Enquanto o usuário não atacar nem usar habilidades ofensivas, não pode ser alvo de ataques diretos por inimigos de arma de longa distância (arco, míssil e etc).",
+                active: "Pode se esquivar de um ataque que tire mais de 25% de sua vida (pode ser ativo a cada 3 turnos)"
+            },
+            {
+                name: "Elixir de Valor Encantado",
+                type: "Item reutilizável (recarga: 2 combates)",
+                action: "Concede imunidade a efeitos de medo, confusão e controle mental por 2 turnos.",
+                benefit: "Benefício adicional: todo dano é cortado pela metade.",
+                collateral: "Após o fim do efeito do Elixir, o usuário não pode atacar por 1 turno."
+            }
+        ];
+
+
+        const itemContainer = document.getElementById('itemContainer');
+        const noResults = document.getElementById('noResults');
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+
+        function renderItems(filteredItems) {
+            itemContainer.innerHTML = '';
+            noResults.style.display = filteredItems.length === 0 ? 'block' : 'none';
+            filteredItems.forEach((item, index) => {
+                const itemBox = document.createElement('div');
+                itemBox.className = 'item-box';
+                itemBox.style.animationDelay = `${index * 0.15}s`;
+                itemBox.innerHTML = `
+                    <h2>${item.name}</h2>
+                    <p><strong>Tipo:</strong> ${item.type}</p>
+                    ${item.damage ? `<p><strong>Dano:</strong> ${item.damage}</p>` : ''}
+                    ${item.usage ? `<p><strong>Uso:</strong> ${item.usage}</p>` : ''}
+                    ${item.passive ? `<p><strong>Passiva:</strong> ${item.passive}</p>` : ''}
+                    ${item.active ? `<p><strong>Ativa:</strong> ${item.active}</p>` : ''}
+                    ${item.effect ? `<p><strong>Efeito:</strong> ${item.effect}</p>` : ''}
+                    ${item.secondary ? `<p><strong>Efeito Secundário:</strong> ${item.secondary}</p>` : ''}
+                    ${item.action ? `<p><strong>Ação:</strong> ${item.action}</p>` : ''}
+                    ${item.limit ? `<p><strong>Limite:</strong> ${item.limit}</p>` : ''}
+                    ${item.benefit ? `<p><strong>Benefício:</strong> ${item.benefit}</p>` : ''}
+                    ${item.collateral ? `<p><strong>Colateral:</strong> ${item.collateral}</p>` : ''}
+                `;
+                itemContainer.appendChild(itemBox);
+            });
+        }
+
+
+        function filterItems() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredItems = items.filter(item =>
+                item.name.toLowerCase().includes(searchTerm) ||
+                item.type.toLowerCase().includes(searchTerm)
+            );
+            renderItems(filteredItems);
+        }
+
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', currentTheme);
+            themeToggle.innerHTML = `<i class="fas fa-${currentTheme === 'dark' ? 'moon' : 'sun'}"></i>`;
+        });
+
+
+        // Renderizar todos os itens inicialmente
+        renderItems(items);
+    </script>
+</body>
+</html>

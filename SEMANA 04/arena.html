@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Arena de Vorgran</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: url('https://www.transparenttextures.com/patterns/old-paper.png') repeat, linear-gradient(135deg, #2A1B1A 0%, #1A2A22 50%, #1C1C3A 100%);
+      min-height: 100vh;
+      color: #E8D6A3;
+      font-family: 'Roboto Mono', monospace;
+      line-height: 1.6;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(212, 160, 23, 0.15), transparent);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Classe para esconder elementos */
+    .hidden {
+      display: none;
+    }
+
+    /* Botão de Menu */
+    .menu-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(180deg, #D4A017, #B8860B);
+      color: #2b1e12;
+      border: 2px solid #8B4513;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      z-index: 11;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-toggle::before {
+      content: '☰';
+      font-size: 1.2rem;
+    }
+
+    .menu-toggle:hover {
+      background: linear-gradient(180deg, #B8860B, #8B4513);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Botões de Expansão */
+    .expand-button {
+      background: linear-gradient(180deg, #3C1518, #2A1B1A);
+      color: #D4A017;
+      border: 2px solid #D4A017;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 15px auto;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .expand-button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212, 160, 23, 0.3), transparent);
+      transition: all 0.5s ease;
+    }
+
+    .expand-button:hover::after {
+      left: 100%;
+    }
+
+    .expand-button:hover {
+      background: rgba(212, 160, 23, 0.4);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(212, 160, 23, 0.8);
+    }
+
+    /* Menu de Navegação */
+    .nav-bar {
+      background: rgba(244, 227, 199, 0.15);
+      border-bottom: 3px solid #D4A017;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      position: fixed;
+      width: 100%;
+      top: 60px;
+      z-index: 10;
+      padding: 15px 0;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      animation: slideDown 0.5s ease forwards;
+    }
+
+    .nav-bar ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .nav-bar a {
+      color: #E8D6A3;
+      text-decoration: none;
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(212, 160, 23, 0.6);
+      padding: 10px 20px;
+      border: 2px solid #D4A017;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-bar a:hover {
+      background: rgba(212, 160, 23, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Cabeçalho */
+    .full-width-background {
+      width: 100%;
+      height: 50vh;
+      min-height: 350px;
+      background: url('https://www.transparenttextures.com/patterns/old-paper.png') repeat, linear-gradient(135deg, #2A1B1A 0%, #1A2A22 50%, #1C1C3A 100%);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border-bottom: 4px solid #D4A017;
+      margin-top: 100px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .full-width-background::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(212, 160, 23, 0.2), transparent);
+      pointer-events: none;
+    }
+
+    .header-container {
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 2;
+      background: transparent;
+    }
+
+    h1 {
+      color: #D4A017;
+      font-family: 'Cinzel', serif;
+      font-size: 4rem;
+      font-weight: 900;
+      text-shadow: 0 0 15px rgba(212, 160, 23, 0.9), 0 3px 6px rgba(0, 0, 0, 0.6);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      position: relative;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .subtitle {
+      color: #E8D6A3;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      text-shadow: 0 0 8px rgba(212, 160, 23, 0.6);
+    }
+
+    /* Container principal */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px;
+      position: relative;
+      z-index: 3;
+    }
+
+    /* Seções */
+    .section-title {
+      color: #D4A017;
+      font-family: 'Cinzel', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      text-shadow: 0 0 12px rgba(212, 160, 23, 0.8);
+      margin: 40px 0 20px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      width: 50%;
+      height: 4px;
+      background: linear-gradient(to right, transparent, #D4A017, transparent);
+    }
+
+    /* Seção Sobre */
+    .about-section {
+      background: rgba(244, 227, 199, 0.15);
+      border: 3px solid #D4A017;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .about-section::before {
+      content: '';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: url('https://img.icons8.com/color/48/000000/scroll.png') no-repeat center/cover;
+      opacity: 0.6;
+    }
+
+    .about-section p {
+      font-size: 1.2rem;
+      color: #E8D6A3;
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+
+    /* Seção de Lutas */
+    #fights-section {
+      background: rgba(244, 227, 199, 0.15);
+      border: 3px solid #D4A017;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      padding: 30px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(12px);
+    }
+
+    .group-table, .bracket-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 20px;
+    }
+
+    .group-table th,
+    .group-table td,
+    .bracket-table th,
+    .bracket-table td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(244, 227, 199, 0.2);
+      text-align: center;
+      color: #E8D6A3;
+      font-size: 1.1rem;
+    }
+
+    .group-table th,
+    .bracket-table th {
+      background: rgba(60, 21, 24, 0.6);
+      color: #D4A017;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(212, 160, 23, 0.6);
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      padding: 15px;
+    }
+
+    .group-table tr:hover,
+    .bracket-table tr:hover {
+      background: rgba(244, 227, 199, 0.2);
+    }
+
+    /* Estilização do Chaveamento */
+    .tournament-bracket {
+      display: flex;
+      flex-direction: column;
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(244, 227, 199, 0.1);
+      border-radius: 16px;
+      border: 2px solid #D4A017;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .round-title {
+      text-align: center;
+      color: #D4A017;
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(212, 160, 23, 0.6);
+    }
+
+    .bracket-round {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 50px;
+    }
+
+    .bracket-match {
+      width: 240px;
+      background: rgba(244, 227, 199, 0.15);
+      border: 3px solid #D4A017;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 0 15px;
+      position: relative;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .bracket-match:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(212, 160, 23, 0.5);
+    }
+
+    .bracket-team {
+      padding: 10px;
+      margin: 8px 0;
+      background: rgba(60, 21, 24, 0.6);
+      border: 1px solid #D4A017;
+      border-radius: 8px;
+      text-align: center;
+      color: #E8D6A3;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 1.1rem;
+    }
+
+    .bracket-team.winner {
+      background: rgba(212, 160, 23, 0.4);
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(212, 160, 23, 0.7);
+    }
+
+    .bracket-vs {
+      text-align: center;
+      color: #D4A017;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin: 8px 0;
+      padding: 5px;
+      text-shadow: 0 0 5px rgba(212, 160, 23, 0.6);
+    }
+
+    .bracket-connector {
+      position: absolute;
+      background: #D4A017;
+      box-shadow: 0 0 5px rgba(212, 160, 23, 0.7);
+    }
+
+    .bracket-connector.horizontal {
+      height: 3px;
+      width: 30px;
+      top: 50%;
+      right: -30px;
+    }
+
+    .bracket-connector.vertical {
+      width: 3px;
+      height: 50px;
+      top: 100%;
+      left: 50%;
+    }
+
+    .bracket-match.final {
+      border: 4px solid #D4A017;
+      background: rgba(212, 160, 23, 0.3);
+      box-shadow: 0 8px 16px rgba(212, 160, 23, 0.6);
+    }
+
+    .bracket-match.final .bracket-team {
+      background: rgba(60, 21, 24, 0.6);
+    }
+
+    /* Partículas Animadas */
+    .particle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: rgba(212, 160, 23, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: particle 6s linear infinite;
+      z-index: -1;
+      box-shadow: 0 0 8px rgba(212, 160, 23, 0.8);
+    }
+
+    @keyframes particle {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 12px rgba(212, 160, 23, 0.8), 0 3px 6px rgba(0, 0, 0, 0.6); }
+      to { text-shadow: 0 0 20px rgba(212, 160, 23, 1), 0 3px 6px rgba(0, 0, 0, 0.6); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .group-table tr,
+    .bracket-table tr {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    /* Layout responsivo para o chaveamento */
+    @media (max-width: 768px) {
+      .bracket-round {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .bracket-match {
+        margin: 15px 0;
+        width: 90%;
+      }
+      
+      .bracket-connector.horizontal {
+        display: none;
+      }
+      
+      .bracket-connector.vertical {
+        height: 30px;
+        top: 100%;
+      }
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .full-width-background {
+        height: 40vh;
+        min-height: 300px;
+        margin-top: 90px;
+      }
+
+      .header-container {
+        bottom: 80px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+      }
+
+      .subtitle {
+        font-size: 1.4rem;
+      }
+
+      .nav-bar {
+        top: 50px;
+      }
+
+      .nav-bar ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav-bar a {
+        font-size: 1.1rem;
+        padding: 8px 16px;
+      }
+
+      .menu-toggle {
+        padding: 8px 16px;
+        font-size: 1rem;
+      }
+
+      .expand-button {
+        padding: 8px 16px;
+        font-size: 1.1rem;
+      }
+
+      .section-title {
+        font-size: 2.2rem;
+      }
+
+      .group-table th,
+      .group-table td,
+      .bracket-table th,
+      .bracket-table td {
+        padding: 8px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .full-width-background {
+        height: 35vh;
+        min-height: 250px;
+        margin-top: 80px;
+      }
+
+      .header-container {
+        bottom: 60px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+      }
+
+      .nav-bar {
+        top: 45px;
+      }
+
+      .nav-bar a {
+        font-size: 1rem;
+        padding: 6px 12px;
+      }
+
+      .menu-toggle {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+
+      .expand-button {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .group-table th,
+      .group-table td,
+      .bracket-table th,
+      .bracket-table td {
+        padding: 6px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Partículas Animadas -->
+  <script>
+    for (let i = 0; i < 60; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.animationDelay = `${Math.random() * 6}s`;
+      particle.style.animationDuration = `${4 + Math.random() * 3}s`;
+      document.body.appendChild(particle);
+    }
+  </script>
+
+  <!-- Botão de Menu -->
+  <button class="menu-toggle" onclick="toggleMenu()">Menu</button>
+
+  <!-- Menu de Navegação -->
+  <nav class="nav-bar hidden">
+    <ul>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#moradores">Moradores</a></li>
+      <li><a href="#locais">Locais da Vila</a></li>
+      <li><a href="#lutas">Lutas</a></li>
+      <li><a href="#jornal">Jornal da Cidade</a></li>
+    </ul>
+  </nav>
+
+  <!-- Cabeçalho -->
+  <div class="full-width-background">
+    <div class="header-container">
+      <h1>A Arena de Vorgran</h1>
+      <p class="subtitle">Vale do Espantalho</p>
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="container">
+    <!-- Seção Sobre -->
+    <section id="sobre" class="about-section">
+      <h2 class="section-title">Sobre o Vale do Espantalho</h2>
+      <p>
+        No coração de um vale sombrio, cercado por florestas densas e nevoeiros eternos, ergue-se o Vale do Espantalho, uma cidade onde bravos guerreiros e místicos se reúnem para provar seu valor. A Arena de Vorgran, o orgulho da cidade, é o palco de batalhas épicas contra inimigos de terras distantes e duelos ferozes entre os próprios moradores. Forjada em pedra e sangue, a arena é um símbolo de coragem e glória.
+      </p>
+      <p>
+        O Vale do Espantalho é conhecido por suas tradições antigas, com espantalhos encantados que guardam os campos e sussurram segredos aos ventos. Aqui, a vida é moldada pela força, honra e pela busca incessante por vitória. Seja bem-vindo à nossa terra, onde cada batalha conta uma história.
+      </p>
+    </section>
+
+    <!-- Seção de Lutas -->
+    <section id="lutas" class="fights-section">
+      <h2 class="section-title">Chaveamento das Lutas</h2>
+
+      <!-- Fase de Grupos -->
+      <button class="expand-button" onclick="toggleSection('group-container', this)">Mostrar Fase de Grupos</button>
+      <div id="group-container" class="hidden">
+        <h3 class="section-title" style="font-size: 2rem;">Fase de Grupos</h3>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+          <table class="group-table">
+            <tr><th colspan="2">Grupo Brócolis</th></tr>
+            <tr><td>André</td></tr>
+            <tr><td>Bruno</td></tr>
+            <tr><td>Caue</td></tr>
+            <tr><td>Lucas M.</td></tr>
+          </table>
+          
+          <table class="group-table">
+            <tr><th colspan="2">Grupo Jilós</th></tr>
+            <tr><td>Eryck S.</td></tr>
+            <tr><td>Giullia J.</td></tr>
+            <tr><td>Maria L.</td></tr>
+            <tr><td>Matheus A.</td></tr>
+          </table>
+          
+          <table class="group-table">
+            <tr><th colspan="2">Grupo Rabanete</th></tr>
+            <tr><td>Fernanda</td></tr>
+            <tr><td>Guilherme L.</td></tr>
+            <tr><td>Lucas S.</td></tr>
+            <tr><td>Nicole F.</td></tr>
+          </table>
+          
+          <table class="group-table">
+            <tr><th colspan="2">Grupo Espinafre</th></tr>
+            <tr><td>Arthur S.</td></tr>
+            <tr><td>Enzo M.</td></tr>
+            <tr><td>Maria Q.</td></tr>
+            <tr><td>Gustavo P.</td></tr>
+          </table>
+          
+          <table class="group-table">
+            <tr><th colspan="2">Grupo Batata</th></tr>
+            <tr><td>Fábio F.</td></tr>
+            <tr><td>Guilherme P.</td></tr>
+            <tr><td>João M.</td></tr>
+            <tr><td>Richard O.</td></tr>
+          </table>
+          
+          <table class="group-table">
+            <tr><th colspan="2">Grupo Wasabi</th></tr>
+            <tr><td>Angelina B.</td></tr>
+            <tr><td>Caua</td></tr>
+            <tr><td>Gabriel A.</td></tr>
+            <tr><td>Raika O.</td></tr>
+          </table>
+        </div>
+        
+        <!-- Chaveamento Visual -->
+        <h3 class="section-title" style="font-size: 2rem; margin-top: 50px;">Chaveamento do Torneio</h3>
+        <div class="tournament-bracket">
+          
+          <!-- Quartas de Final -->
+          <div class="round-title">Quartas de Final</div>
+          <div class="bracket-round">
+            <div class="bracket-match">
+              <div class="bracket-team winner">Brócolis</div>
+              <div class="bracket-vs">VS</div>
+              <div class="bracket-team">Jilós</div>
+              <div class="bracket-connector horizontal"></div>
+            </div>
+            
+            <div class="bracket-match">
+              <div class="bracket-team">Rabanete</div>
+              <div class="bracket-vs">VS</div>
+              <div class="bracket-team winner">Espinafre</div>
+              <div class="bracket-connector horizontal"></div>
+            </div>
+            
+            <div class="bracket-match">
+              <div class="bracket-team winner">Batata</div>
+              <div class="bracket-vs">VS</div>
+              <div class="bracket-team">Wasabi</div>
+              <div class="bracket-connector horizontal"></div>
+            </div>
+          </div>
+          
+          <!-- Semi Final -->
+          <div class="round-title">Semi Final</div>
+          <div class="bracket-round">
+            <div class="bracket-match">
+              <div class="bracket-connector vertical" style="top: -50px; transform: rotate(180deg);"></div>
+              <div class="bracket-team winner">Brócolis</div>
+              <div class="bracket-vs">VS</div>
+              <div class="bracket-team">Espinafre</div>
+              <div class="bracket-connector horizontal"></div>
+            </div>
+            
+            <div class="bracket-match">
+              <div class="bracket-connector vertical" style="top: -50px; transform: rotate(180deg);"></div>
+              <div class="bracket-team">Batata</div>
+              <div class="bracket-vs">VS</div>
+              <div class="bracket-team winner">Wasabi</div>
+              <div class="bracket-connector horizontal"></div>
+            </div>
+          </div>
+          
+          <!-- Final -->
+          <div class="round-title">Final</div>
+          <div class="bracket-round">
+            <div class="bracket-match final">
+              <div class="bracket-connector vertical" style="top: -50px; transform: rotate(180deg);"></div>
+              <div class="bracket-team">Brócolis</div>
+              <div class="bracket-vs">VS</div>
+              <div class="bracket-team winner">Wasabi</div>
+            </div>
+          </div>
+        </div>
+        
+        <p style="text-align: center; color: #E8D6A3; margin-top: 30px; font-family: 'Cinzel', serif; font-size: 1.4rem; text-shadow: 0 0 8px rgba(212, 160, 23, 0.6);">
+          O time Wasabi venceu o torneio! Parabéns a todos os participantes.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Função para alternar o menu
+    function toggleMenu() {
+      const navBar = document.querySelector('.nav-bar');
+      navBar.classList.toggle('hidden');
+    }
+
+    // Função para alternar as seções (fase de grupos e fase individual)
+    function toggleSection(sectionId, button) {
+      const section = document.getElementById(sectionId);
+      section.classList.toggle('hidden');
+      
+      // Alterar o texto do botão
+      if (section.classList.contains('hidden')) {
+        button.textContent = button.textContent.replace('Ocultar', 'Mostrar');
+      } else {
+        button.textContent = button.textContent.replace('Mostrar', 'Ocultar');
+      }
+    }
+
+    // Fechar o menu ao clicar em um link
+    document.querySelectorAll('.nav-bar a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('.nav-bar').classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

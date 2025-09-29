@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Arena: Onde Lendas se Encontram - Chaveamento de torneios e inscrição para batalhas.">
+    <meta name="keywords" content="Arena, torneio, RPG, fantasia, chaveamento">
+    <meta name="author" content="Grupo Wasabi">
+    <title>Arena (Onde Lendas se Encontram)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=IM+Fell+English:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-start: #3c2f1b;
+            --bg-end: #1f140a;
+            --text-color: #f0e4c2;
+            --bronze: #b89a5f;
+            --gold: #f2c94c;
+            --wood: #5a4327;
+            --shadow: rgba(0, 0, 0, 0.6);
+            --parchment-light: #f7edd5;
+            --parchment-dark: #3c2f1b;
+            --glow: rgba(242, 201, 76, 0.3);
+        }
+        [data-theme="light"] {
+            --bg-start: #f7edd5;
+            --bg-end: #e2d4a8;
+            --text-color: #2b1e12;
+            --bronze: #9b7e46;
+            --gold: #d4a017;
+            --wood: #6b532f;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --glow: rgba(212, 160, 23, 0.3);
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'IM Fell English', serif;
+            background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+            font-weight: 700;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAJUlEQVQYV2N8+vTpfwYGBgYGBgYGphkYGBgYGBgYGBgYGBgYGAA8nAX/9W3bOAAAAAElFTkSuQmCC') repeat, radial-gradient(circle, var(--glow) 0%, transparent 70%) 50% 50% / 200% 200%;
+            opacity: 0.2;
+            z-index: -1;
+            animation: glowPulse 8s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { background-position: 50% 50%, 20% 20%; }
+            50% { background-position: 50% 50%, 80% 80%; }
+        }
+        header {
+            background: linear-gradient(135deg, var(--bronze), var(--gold));
+            width: 100%;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 5px solid var(--wood);
+        }
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .header::after {
+            content: '';
+            display: block;
+            height: 4px;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 4"%3E%3Cpath d="M0,2 h25 l5,2 l5,-2 h30 l5,2 l5,-2 h25" stroke="%23b89a5f" fill="none"/%3E%3C/svg%3E') repeat-x;
+            margin-top: 20px;
+        }
+        .header h1 {
+            color: #2b1e12;
+            font-family: 'Uncial Antiqua', serif;
+            font-weight: 400;
+            font-size: 4.5em;
+            margin: 0;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 4px;
+        }
+        .header .logo {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--parchment-light);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--shadow);
+        }
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gold);
+            border: 3px solid var(--bronze);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .theme-toggle:hover {
+            background: var(--bronze);
+            transform: scale(1.15);
+            box-shadow: 0 0 10px var(--glow);
+        }
+        .theme-toggle i {
+            color: #2b1e12;
+            font-size: 1.4em;
+        }
+        .nav-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-button {
+            background: linear-gradient(135deg, var(--bronze), var(--gold));
+            color: #2b1e12;
+            font-family: 'IM Fell English', serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            padding: 12px 24px;
+            border: 3px solid var(--wood);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            margin: 0 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-button:hover {
+            background: linear-gradient(135deg, var(--gold), var(--bronze));
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+        .section {
+            background: rgba(90, 67, 39, 0.95);
+            border: 4px solid var(--bronze);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 20px auto;
+            width: 95%;
+            max-width: 1400px;
+            box-shadow: 0 12px 30px var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.7s ease forwards;
+        }
+        .section h2 {
+            color: var(--gold);
+            font-family: 'Uncial Antiqua', serif;
+            font-size: 2.9em;
+            margin: 0 0 30px;
+            padding-left: 50px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .section h2::before {
+            content: '\f0d7';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--bronze);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.9em;
+        }
+        .section p, .section textarea, .section input, .section select {
+            font-family: 'IM Fell English', serif;
+            font-size: 1.5em;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+        /* Bracket Styling */
+        .bracket {
+            display: flex;
+            align-items: stretch;
+            overflow-x: auto;
+            padding: 20px;
+            position: relative;
+        }
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            margin: 0 30px;
+            position: relative;
+        }
+        .match {
+            background: var(--parchment-light);
+            border: 3px solid var(--bronze);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            min-width: 120px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .match:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow);
+        }
+        .player {
+            background: var(--wood);
+            border: 2px solid var(--bronze);
+            border-radius: 10px;
+            padding: 8px;
+            margin: 5px 0;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+        .arrow {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: var(--bronze);
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            content: '\f061';
+        }
+        .arrow::before {
+            content: '\f061';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+        /* Form and Button Styling */
+        .form-group {
+            margin: 20px 0;
+        }
+        .form-group label {
+            display: block;
+            font-size: 1.5em;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 15px;
+            background: var(--wood);
+            border: 3px solid var(--bronze);
+            border-radius: 15px;
+            color: var(--text-color);
+            font-size: 1.5em;
+            font-weight: 700;
+            box-shadow: inset 0 3px 6px var(--shadow);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px var(--glow);
+        }
+        .submit-button {
+            background: linear-gradient(135deg, var(--bronze), var(--gold));
+            color: #2b1e12;
+            font-family: 'IM Fell English', serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            padding: 15px 30px;
+            border: 3px solid var(--wood);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+        .submit-button:hover {
+            background: linear-gradient(135deg, var(--gold), var(--bronze));
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+        /* Animation */
+        .section, .match {
+            opacity: 0;
+            transform: translateY(60px);
+            animation: fadeInUp 0.7s ease forwards;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--bg-start), var(--wood));
+            color: var(--bronze);
+            width: 100%;
+            text-align: center;
+            padding: 35px 0;
+            margin-top: auto;
+            border-top: 4px solid var(--bronze);
+        }
+        footer p {
+            margin: 0;
+            font-size: 1.4em;
+            font-family: 'IM Fell English', serif;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px var(--shadow);
+        }
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3.8em;
+            }
+            .section h2 {
+                font-size: 2.5em;
+            }
+            .match {
+                min-width: 100px;
+                padding: 10px;
+            }
+            .player {
+                font-size: 1.3em;
+            }
+            .arrow {
+                right: -20px;
+                font-size: 20px;
+            }
+            .form-group input, .form-group textarea, .form-group select {
+                font-size: 1.4em;
+            }
+            .submit-button {
+                font-size: 1.4em;
+            }
+        }
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 3em;
+            }
+            .section h2 {
+                font-size: 2.2em;
+            }
+            .match {
+                min-width: 80px;
+            }
+            .player {
+                font-size: 1.2em;
+            }
+            .form-group input, .form-group textarea, .form-group select {
+                font-size: 1.3em;
+            }
+            body::before {
+                background-size: 150% 150%;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <header>
+        <div class="header">
+            <div class="logo"></div>
+            <h1>Arena (Onde Lendas se Encontram)</h1>
+            <button class="theme-toggle" title="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="nav-container">
+        <a href="catalogo.html" class="nav-button">Catálogo</a>
+        <a href="placar.html" class="nav-button">Placar</a>
+    </div>
+
+    <div class="section">
+        <h2>Chaveamento dos Vencedores</h2>
+        <div class="bracket">
+            <div class="round">
+                <div class="match"><div class="player">1</div><div class="player">2</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">3</div><div class="player">4</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">5</div><div class="player">6</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">7</div><div class="player">8</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">9</div><div class="player">10</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">11</div><div class="player">12</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">13</div><div class="player">14</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">15</div><div class="player">16</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">17</div><div class="player">18</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">19</div><div class="player">20</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">21</div><div class="player">22</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">23</div><div class="player">24</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">1</div><div class="player">4</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">5</div><div class="player">8</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">10</div><div class="player">11</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">14</div><div class="player">15</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">17</div><div class="player">19</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">22</div><div class="player">24</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">1</div><div class="player">5</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">10</div><div class="player">15</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">17</div><div class="player">24</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">7</div><div class="player">5</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">15</div><div class="player">24</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">5 (Campeão)</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Chaveamento dos Perdedores</h2>
+        <div class="bracket">
+            <div class="round">
+                <div class="match"><div class="player">2</div><div class="player">3</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">6</div><div class="player">7</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">9</div><div class="player">12</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">13</div><div class="player">16</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">18</div><div class="player">20</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">21</div><div class="player">23</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">3</div><div class="player">6</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">9</div><div class="player">16</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">18</div><div class="player">23</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">3</div><div class="player">9</div><span class="arrow"></span></div>
+                <div class="match"><div class="player">16</div><div class="player">23</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">3</div><div class="player">23</div><span class="arrow"></span></div>
+            </div>
+            <div class="round">
+                <div class="match"><div class="player">23 (Vencedor)</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Visitantes para Batalha</h2>
+        <p>Lorde Valquíria</p>
+    </div>
+
+    <div class="section">
+        <h2>Mural de Recados (Comunidade)</h2>
+        <textarea placeholder="Escreva seu recado" rows="4"></textarea>
+        <button class="submit-button" onclick="alert('Recado enviado!')">Enviar</button>
+    </div>
+
+    <div class="section">
+        <h2>História da Arena</h2>
+        <p>A Arena foi fundada em 1080 por Sir Cedric, um lendário cavaleiro, como um local de honra e glória para os guerreiros de Eldoria.</p>
+    </div>
+
+    <div class="section">
+        <h2>Localização</h2>
+        <p>Eldoria - Detalhes a serem preenchidos.</p>
+    </div>
+
+    <div class="section">
+        <h2>Formulário de Inscrição</h2>
+        <div class="form-group">
+            <label for="warrior-name">Nome do Guerreiro</label>
+            <input type="text" id="warrior-name" placeholder="Ex: Sir Alaric" required>
+        </div>
+        <div class="form-group">
+            <label for="warrior-age">Idade</label>
+            <input type="number" id="warrior-age" placeholder="Ex: 25" required>
+        </div>
+        <div class="form-group">
+            <label for="warrior-weapon">Escolha sua Arma</label>
+            <select id="warrior-weapon">
+                <option value="adaga">Adaga</option>
+                <option value="foice">Foice</option>
+                <option value="espadaFraca">Espada Fraca</option>
+                <option value="vela">Vela</option>
+                <option value="manopla">Manopla</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="warrior-story">Fale sobre sua Jornada</label>
+            <textarea id="warrior-story" placeholder="Conte sua história..." rows="4"></textarea>
+        </div>
+        <button class="submit-button" onclick="submitForm()">Inscreva-se</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Grupo Wasabi. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function submitForm() {
+            const name = document.getElementById('warrior-name').value;
+            const age = document.getElementById('warrior-age').value;
+            const weapon = document.getElementById('warrior-weapon').value;
+            const story = document.getElementById('warrior-story').value;
+
+            if (!name || !age || !story) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            alert(`Inscrição realizada!\nNome: ${name}\nIdade: ${age}\nArma: ${weapon.charAt(0).toUpperCase() + weapon.slice(1)}\nJornada: ${story}`);
+        }
+
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', currentTheme);
+            themeToggle.innerHTML = `<i class="fas fa-${currentTheme === 'dark' ? 'moon' : 'sun'}"></i>`;
+        });
+    </script>
+</body>
+</html>
