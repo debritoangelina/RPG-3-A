@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casa da Moeda - Vale do Espantalho</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cardo&display=swap');
+
+    body {
+      font-family: 'Cardo', serif;
+      background: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+      margin: 0;
+      padding: 0;
+      color: #2c1c18;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6a3b2e, #3b1f1a);
+      color: #f4d58d;
+      padding: 20px 10px;
+      text-align: center;
+      font-family: 'Cinzel Decorative', cursive;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      border-bottom: 4px solid #d4af37;
+    }
+
+    header h1 {
+      font-size: 1.8em;
+      margin: 0;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    }
+
+    .coin-display {
+      text-align: center;
+      margin: 20px;
+    }
+
+    .coin-display img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #d4af37;
+      box-shadow: 0 0 25px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,215,0,0.7);
+    }
+
+    .coin-display p {
+      margin-top: 12px;
+      font-style: italic;
+      color: #5a322e;
+      font-size: 1.1em;
+    }
+
+    section {
+      padding: 20px;
+      margin: 20px;
+      background: #fdf6e3;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+      border: 3px solid #d4af37;
+    }
+
+    h2 {
+      color: #6a3b2e;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.5em;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 22px;
+      color: #d4af37;
+      margin: 10px 0 20px 0;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      margin: 12px 0;
+      padding-left: 35px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+      border: 2px solid #8b7500;
+      box-shadow: inset 0 0 4px rgba(255,255,255,0.6), 0 0 6px rgba(0,0,0,0.4);
+    }
+
+    /* Estilo do placar em cards */
+    .placar-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff8dc;
+      border: 2px solid #d4af37;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      text-align: center;
+      padding: 15px;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card h3 {
+      font-family: 'Cinzel Decorative', cursive;
+      color: #3b1f1a;
+      margin-bottom: 10px;
+    }
+
+    .moedas {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #b8860b;
+      margin-bottom: 10px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .buttons button {
+      background: #d4af37;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #3b1f1a;
+      transition: background 0.3s;
+    }
+
+    .buttons button:hover {
+      background: #b8860b;
+    }
+
+    footer {
+      background: #3b1f1a;
+      color: #f4d58d;
+      text-align: center;
+      padding: 15px;
+      font-size: 15px;
+      border-top: 4px solid #d4af37;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.6);
+      font-family: 'Cinzel Decorative', cursive;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🏛 Casa da Moeda de Vale do Espantalho 🏛</h1>
+  </header>
+
+  <div class="coin-display">
+    <img src="https://static.wixstatic.com/media/371a13_074e9c94648e476a984ca8bcf4ee60e4~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/371a13_074e9c94648e476a984ca8bcf4ee60e4~mv2.jpg" alt="Moeda Oficial">
+    <p>Espiga Coin – Símbolo da prosperidade e sobrevivência do vale</p>
+  </div>
+
+  <section>
+    <h2>Moeda da Cidade</h2>
+    <div class="divider">✦</div>
+    <p><strong>Nome:</strong> Espiga Coins</p>
+    <p><strong>Valor:</strong> 1 Espiga Coin = 1 unidade de valor local</p>
+    <p><strong>Controle:</strong> Casa da Moeda sob proteção real</p>
+  </section>
+
+  <section>
+    <h2>Produção</h2>
+    <div class="divider">⚒️</div>
+    <ul>
+      <li>1 ferro consegue fazer 15 unidades de moeda.</li>
+      <li>Multas: trocas irregulares da moeda entre jogadores (sem autorização da casa da moeda). </li>
+      <li>Averiguação feita pelos mestres da Casa da Moeda.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Curiosidades</h2>
+    <div class="divider">⚔️</div>
+    <ul>
+      <li><strong>Tributo Real:</strong> Mercadão pagam uma taxa à cidade em suas trocas.</li>
+      <li><strong>Ter a Espiga Coin:</strong> Apenas fazendo as missões semanais e o salário do distrito.</li>
+      <li><strong>Segurança:</strong> O Quartel é o único que impede falsificações.</li>
+    </ul>
+  </section>
+
+  <!-- PLACAR DE MOEDAS -->
+  <section>
+    <h2>Placar de Moedas</h2>
+    <div class="divider">💰</div>
+    <div class="placar-container" id="placar">
+      <!-- Cards dos jogadores serão carregados via Firebase -->
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Casa da Moeda de Vale do Espantalho – Todos os direitos reservados</p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // 🔥 CONFIG DO SEU FIREBASE (trocar pelos seus dados reais!)
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_PROJETO.firebaseapp.com",
+      projectId: "SEU_PROJETO",
+      storageBucket: "SEU_PROJETO.appspot.com",
+      messagingSenderId: "ID",
+      appId: "APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const placarContainer = document.getElementById("placar");
+
+    // Escuta em tempo real a coleção "participantes"
+    onSnapshot(collection(db, "participantes"), (snapshot) => {
+      placarContainer.innerHTML = "";
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const id = docSnap.id;
+        const nome = data.nome;
+        const moedas = data.moedas;
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${nome}</h3>
+          <div class="moedas" id="moedas-${id}">${moedas} 💰</div>
+          <div class="buttons">
+            <button onclick="alterarMoedas('${id}', ${moedas - 1})">-</button>
+            <button onclick="alterarMoedas('${id}', ${moedas + 1})">+</button>
+          </div>
+        `;
+        placarContainer.appendChild(card);
+      });
+    });
+
+    // Função para alterar moedas no Firebase
+    window.alterarMoedas = async (id, novoValor) => {
+      const ref = doc(db, "participantes", id);
+      await updateDoc(ref, { moedas: novoValor });
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+casadamoeda_ref = db.reference('/casadamoeda')
+
+casadamoeda_ref.set({
+    'c1': {
+        'Aventureiro': [
+            '001'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c2': {
+        'Aventureiro': [
+            '002'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c3': {
+        'Aventureiro': [
+            '003'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c4': {
+        'Aventureiro': [
+            '004'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c5': {
+        'Aventureiro': [
+            '005'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c6': {
+        'Aventureiro': [
+            '006'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c7': {
+        'Aventureiro': [
+            '007'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c8': {
+        'Aventureiro': [
+            '008'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c9': {
+        'Aventureiro': [
+            '009'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c10': {
+        'Aventureiro': [
+            '010'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c11': {
+        'Aventureiro': [
+            '011'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c12': {
+        'Aventureiro': [
+            '012'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c13': {
+        'Aventureiro': [
+            '013'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c14': {
+        'Aventureiro': [
+            '014'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c15': {
+        'Aventureiro': [
+            '015'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c16': {
+        'Aventureiro': [
+            '016'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c17': {
+        'Aventureiro': [
+            '017'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c18': {
+        'Aventureiro': [
+            '018'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c19': {
+        'Aventureiro': [
+            '019'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c20': {
+        'Aventureiro': [
+            '020'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c21': {
+        'Aventureiro': [
+            '021'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c22': {
+        'Aventureiro': [
+            '022'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c23': {
+        'Aventureiro': [
+            '023'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    },
+    'c24': {
+        'Aventureiro': [
+            '024'
+        ],
+        'Moedas': {
+            'quantidade': 0
+        }
+    }
+    })
