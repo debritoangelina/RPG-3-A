@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Aventureiro</title>
+  <style>
+    /* Paleta baseada na imagem medieval */
+    :root {
+      --cor-pedra: #d1b17a;
+      --cor-pedra-clara: #e4cfa0;
+      --cor-telhado: #c56a45;
+      --cor-telhado-escuro: #a3452f;
+      --cor-escuro: #2e2e2e;
+    }
+
+    body {
+      background: url("imagens/cidade_do_espantalho.png") no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Georgia', serif;
+      color: var(--cor-escuro);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .perfil-container {
+      background: var(--cor-pedra-clara);
+      border: 8px solid var(--cor-telhado-escuro);
+      border-radius: 20px;
+      max-width: 900px;
+      width: 95%;
+      padding: 25px;
+      box-shadow: 0 0 35px rgba(0,0,0,0.8);
+      backdrop-filter: blur(3px);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: var(--cor-telhado-escuro);
+      text-shadow: 2px 2px 0px var(--cor-pedra);
+      font-family: "Cinzel", serif;
+    }
+
+    .personagem-armas {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: var(--cor-pedra);
+      border: 4px double var(--cor-telhado-escuro);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.5);
+      min-width: 160px;
+    }
+
+    .card img {
+      max-width: 150px;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    .classes {
+      background: var(--cor-pedra);
+      border: 4px double var(--cor-telhado-escuro);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 25px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .classes ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .classes li {
+      font-size: 18px;
+      margin: 8px 0;
+    }
+
+    .classes span {
+      font-weight: bold;
+      color: var(--cor-telhado-escuro);
+    }
+
+    .medalhas {
+      background: var(--cor-pedra);
+      border: 4px double var(--cor-telhado-escuro);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+    }
+
+    .medalhas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      justify-items: center;
+      margin-top: 12px;
+    }
+
+    .medalha-slot {
+      width: 80px;
+      height: 80px;
+      background: var(--cor-pedra-clara);
+      border: 3px solid var(--cor-telhado-escuro);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+    }
+
+    .medalha-slot img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+.cartas {
+  background: var(--cor-pedra);
+  border: 4px double var(--cor-telhado-escuro);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 25px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+}
+
+.cartas ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cartas li {
+  font-size: 18px;
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cartas span {
+  font-weight: bold;
+  color: var(--cor-telhado-escuro);
+}
+  </style>
+</head>
+<body>
+  <div class="perfil-container">
+    <!-- Cabeçalho -->
+    <h1>Perfil do Aventureiro</h1>
+
+    <!-- Personagem + Arma -->
+    <div class="personagem-armas">
+      <div class="card">
+        <img src="boneco_b.png" alt="Lucas Souza">
+        <p>Angelina B</p>
+      </div>
+      <div class="card">
+        <img src="arma_b.png" alt="Fulgor Divino">
+        <p>Amuleto Yung</p>
+      </div>
+    </div>
+
+    <!-- Classes -->
+    <div class="classes">
+      <h2>Classes</h2>
+      <ul>
+        <li>⚔️ Cavaleiro <span>Nv 1</span></li>
+        <li>✨ Mago <span>Nv 0</span></li>
+        <li>🛠️ Artífice <span>Nv 3</span></li>
+        <li>💰 Mercador <span>Nv 1</span></li>
+        <li>🌟 Herói <span>Nv 0</span></li>
+      </ul>
+    </div>
+ <!-- Cartas de Combate -->
+    <div class="cartas">
+      <h2>Cartas de Combate</h2>
+      <ul>
+        <li>🂡 Ás  <span>3 Dano</span></li>
+        <li>🂢 2  <span>1 Dano</span></li>
+        <li>🂣 3  <span>1 Dano</span></li>
+        <li>🂤 4  <span>2 Dano</span></li>
+        <li>🂥 5  <span>2 Dano</span></li>
+        <li>🂦 6  <span>3 Dano</span></li>
+        <li>🂧 7  <span>3 Dano</span></li>
+        <li>🂨 8  <span>4 Dano</span></li>
+        <li>🂩 9  <span>veneno Dano</span></li>
+        <li>🂪 10  <span>5 Dano</span></li>
+        <li>🂫 J <span>7 Dano</span></li>
+        <li>🂭 Q <span>8 Dano</span></li>
+        <li>🂮 K <span>Ativa o veneno 9 dano </span></li>
+      </ul>
+    </div>
+
+    <!-- Medalhas -->
+    <div class="medalhas">
+      <h2>Medalhas</h2>
+      <div class="medalhas-grid">
+        <div class="medalha-slot"><img src="medalha1.png" alt="Rspantalho"></div>
+        <div class="medalha-slot"><img src="medalha2.png" alt="Rei goblin"></div>
+        <div class="medalha-slot"><img src="medalha3.png" alt="Aracne"></div>
+        <div class="medalha-slot"><img src="medalha4.png" alt="Arena"></div>
+        <div class="medalha-slot"><img src="medalha5.png" alt="Vagante"></div>
+        <div class="medalha-slot"><img src="medalha6.png" alt="Alquimista"></div>
+        <div class="medalha-slot"><img src="medalha7.png" alt="Tritão"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
